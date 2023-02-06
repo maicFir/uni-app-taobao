@@ -1,7 +1,7 @@
 <template>
 	<view class="index-content">
 		<Header></Header>
-		<Content></Content>
+		<Content ref="content"></Content>
 	</view>
 </template>
 
@@ -18,6 +18,12 @@
 			return {
 				
 			}
+		},
+		onPullDownRefresh() {
+			this.$refs.content.pullDownRefresh();
+		},
+		onReachBottom() {
+			this.$refs.content.reachBottom();
 		},
 		onLoad() {
 			console.log('index load')

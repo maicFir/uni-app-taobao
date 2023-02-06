@@ -48,6 +48,9 @@
 					</view>
 				</template>
 			</uni-list-item>
+			<view class="load-status">
+				{{loadStatusText[loadStatus]}}
+			</view>
 		</uni-list>
 		<!--商品列表_end-->
 		<!--底部_start-->
@@ -69,6 +72,12 @@
 	export default {
 		data() {
 			return {
+				loadStatusText: {
+					0: '正在加载中...',
+					1: '加载更多...',
+					2: '没有更多了'
+				},
+				loadStatus: 0,
 				classifyData: [
 					[
 						{
@@ -173,24 +182,24 @@
 					]
 				],
 				shopData: [
-					{
-						url: "//gw.alicdn.com/bao/uploaded/i1/1902469458/O1CN01tKftX62JjomKrKNl7_!!0-item_pic.jpg_320x320q90.jpg_.webp",
-						desc: "欧式纸巾盒客厅轻奢桌面抽纸盒家用创意卫生间茶几收纳盒遥控器",
-						prices: 200,
-						buys: 100
-					},
-					{
-						url: "//gw.alicdn.com/bao/uploaded/i2/89937985/O1CN01P1rSSX28rBORmKtU5_!!89937985.jpg_320x320q90.jpg_.webp",
-						desc: "日本进口陶瓷九谷志野日式清酒杯小酒杯酒具小茶杯白酒盅套装礼盒",
-						prices: 200,
-						buys: 100
-					},
-					{
-						url: "//gw.alicdn.com/bao/uploaded/i4/TB1G78QIFXXXXaiXXXXXXXXXXXX_!!2-item_pic.png_320x320q90.jpg_.webp",
-						desc: "包邮枣木实木鱼肚擀面杖老潼关肉夹馍白吉馍烧饼擀面杖饺子皮厨具",
-						prices: 200,
-						buys: 100
-					}
+					// {
+					// 	url: "//gw.alicdn.com/bao/uploaded/i1/1902469458/O1CN01tKftX62JjomKrKNl7_!!0-item_pic.jpg_320x320q90.jpg_.webp",
+					// 	desc: "欧式纸巾盒客厅轻奢桌面抽纸盒家用创意卫生间茶几收纳盒遥控器",
+					// 	prices: 200,
+					// 	buys: 100
+					// },
+					// {
+					// 	url: "//gw.alicdn.com/bao/uploaded/i2/89937985/O1CN01P1rSSX28rBORmKtU5_!!89937985.jpg_320x320q90.jpg_.webp",
+					// 	desc: "日本进口陶瓷九谷志野日式清酒杯小酒杯酒具小茶杯白酒盅套装礼盒",
+					// 	prices: 200,
+					// 	buys: 100
+					// },
+					// {
+					// 	url: "//gw.alicdn.com/bao/uploaded/i4/TB1G78QIFXXXXaiXXXXXXXXXXXX_!!2-item_pic.png_320x320q90.jpg_.webp",
+					// 	desc: "包邮枣木实木鱼肚擀面杖老潼关肉夹馍白吉馍烧饼擀面杖饺子皮厨具",
+					// 	prices: 200,
+					// 	buys: 100
+					// }
 				],
 				footerData: [
 					{
@@ -209,8 +218,50 @@
 						text: "用户反馈",
 						url: ""
 					}
-				]
+				],
+				condation: {
+					pageIndex: 1,
+					pageSize: 10
+				}
 			}
+		},
+		methods: {
+			queryGoods() {
+				const { condation } = this;
+				this.loadStatus = 0;
+				uni.request({
+					url:"https://mock.mengxuegu.com/mock/63e0b9f41b8291742151c7a2/tabbao/goodslist",
+					method:'GET',
+					data: condation,
+					success: (res) =>  {
+						const {data: {data}} = res;
+						if (data.hasMore) {
+							this.loadStatus = 3;
+							this.shopData = this.shopData.concat(data.list)
+						} else {
+							this.loadStatus = 2;
+						}
+						
+					}
+				})
+			},
+			pullDownRefresh() {
+				this.condation.pageIndex = 1;
+				this.condation.pageSize = 10;
+				this.shopData = [];
+				this.queryGoods();
+				// 停止loading
+				uni.stopPullDownRefresh();
+			},
+			reachBottom() {
+				if (this.condation.pageIndex < 5) {
+					this.condation.pageIndex +=1;
+					this.queryGoods();
+				}
+			}
+		},
+		created() {
+			this.queryGoods();
 		}
 	}	
 </script>
@@ -350,13 +401,18 @@
 					
 				}
 			}
+			.load-status {
+				width: 100%;
+				text-align: center;
+				padding: 10rpx 0;
+			}
 			.card-item-body {
 				width:340rpx;
 				border-radius: 20rpx;
 				padding-bottom: 10rpx;
 				&-desc {
 					overflow: hidden;
-					height: 75rpx;
+					max-height: 75rpx;
 					padding: 20rpx 10rpx;
 				}
 				.prise {
