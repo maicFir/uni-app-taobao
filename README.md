@@ -17,8 +17,9 @@ uni-app仿淘宝h5静态
 
 ### todolist
 
-* uni-app 
+- [X] 首页静态部分：已完成
+- [X] Mock数据：已完成
+- [X] 前端静态部署：已完成  [tb.wmcweb.cn](http://tb.wmcweb.cn/#/)
 
-静态部分：首页已完成
 
 * 云开发示例--- 待完成
