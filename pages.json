@@ -21,7 +21,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "购物车",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -30,6 +30,15 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "我的淘宝",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/add/add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "添加购物车",
                 "enablePullDownRefresh": false
             }
             
@@ -44,7 +53,7 @@
 	"uniIdRouter": {},
 	"tabBar": {
 		"color": "#7A7E83",
-		"selectedColor": "#3cc51f",
+		"selectedColor": "#FF8D0E",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"height": "60px",
