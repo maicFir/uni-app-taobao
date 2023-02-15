@@ -22,4 +22,10 @@ uni-app仿淘宝h5静态
 - [X] 前端静态部署：已完成  [tb.wmcweb.cn](http://tb.wmcweb.cn/#/)
 
 
-* 云开发示例--- 待完成
+* 云开发示例
+
+- [x] 购物车模块实现云函数与云对象的增删查改：已完成
+- [] 接口URL化：待完成 
+- [] JQL，schameCode介绍：待完成
+- [] uni-id-pages接入官方登陆：待完成
+- [] uni-admin关联云端一体化
