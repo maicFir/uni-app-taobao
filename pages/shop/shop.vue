@@ -64,10 +64,18 @@
 					const shopqueryObj = uniCloud.importObject("taobao_shop_query");
 					await shopqueryObj.delete({_id});
 					this.handleQueryData();
+			},
+			async queryTest() {
+				const res = await uni.request({
+					url:"https://tb.wmcweb.cn/query/query",
+					
+				})
+				console.log('test', res)
 			}
 		},
 		created() {
 			this.handleQueryData();
+			this.queryTest();
 		}
 	}
 </script>
